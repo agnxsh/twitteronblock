@@ -1,11 +1,11 @@
 {
   "root": true,
-  "project": {
-    "name": "twiiteronblock"
-  },
   "api": {
     "projectId": "3b98zbla",
     "dataset": "production"
+  },
+  "project": {
+    "name": "twiiteronblock"
   },
   "plugins": [
     "@sanity/base",

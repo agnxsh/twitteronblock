@@ -88,7 +88,7 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           setSelected={setSelected}
           redirect={'/profile'}
         />
-        <SidebarOption Icon={CgMoreO} text="More" />
+        <SidebarOption Icon={CgMoreO} text="More" setSelected={setSelected} />
         <div className={style.tweetButton}>Mint</div>
       </div>
       <div className={style.profileButton}>
