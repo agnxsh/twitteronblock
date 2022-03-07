@@ -17,7 +17,7 @@ const tweets = [
       'https://media-exp1.licdn.com/dms/image/C5603AQEob3X1smFxKQ/profile-displayphoto-shrink_200_200/0/1643113692785?e=1651708800&v=beta&t=bbiUdUNEjzkGaW3ek2qmkt0ugNePPVtrJQ3jLnO4ZIs',
     text: 'gm',
     isProfileImageNft: false,
-    timestamp: '2020-06-01T12:00:00.000Z',
+    timestamp: '2022-02-14T12:00:00.000Z',
   },
   {
     displayName: 'Agnish',
