@@ -4,7 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
+    "strict": false,
+    "noImplicitAny": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -19,9 +20,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "pages/index.js",
-    "pages/index.js",
-    "pages/_app.js"
+    "pages/index.tsx",
+    "pages/index.tsx",
+    "pages/_app.tsx"
   ],
   "exclude": ["node_modules"]
 }

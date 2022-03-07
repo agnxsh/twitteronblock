@@ -55,30 +55,35 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           text="Explore"
           isActive={Boolean(selected === 'Explore')}
           setSelected={setSelected}
+          redirect={undefined}
         />
         <SidebarOption
           Icon={selected === 'Notifications' ? FaBell : FiBell}
           text="Notifications"
           isActive={Boolean(selected === 'Notifications')}
           setSelected={setSelected}
+          redirect={undefined}
         />
         <SidebarOption
           Icon={selected === 'Messages' ? HiMail : HiOutlineMail}
           text="Messages"
           isActive={Boolean(selected === 'Messages')}
           setSelected={setSelected}
+          redirect={undefined}
         />
         <SidebarOption
           Icon={selected === 'Bookmarks' ? BsBookmarkFill : BsBookmark}
           text="Bookmarks"
           isActive={Boolean(selected === 'Bookmarks')}
           setSelected={setSelected}
+          redirect={undefined}
         />
         <SidebarOption
           Icon={selected === 'Lists' ? RiFileList2Fill : FaRegListAlt}
           text="Lists"
           isActive={Boolean(selected === 'Lists')}
           setSelected={setSelected}
+          redirect={undefined}
         />
 
         <SidebarOption
@@ -88,7 +93,13 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           setSelected={setSelected}
           redirect={'/profile'}
         />
-        <SidebarOption Icon={CgMoreO} text="More" setSelected={setSelected} />
+        <SidebarOption
+          Icon={CgMoreO}
+          text="More"
+          setSelected={setSelected}
+          isActive={undefined}
+          redirect={undefined}
+        />
         <div className={style.tweetButton}>Mint</div>
       </div>
       <div className={style.profileButton}>
