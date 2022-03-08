@@ -26,7 +26,7 @@ const tweets = [
       'https://media-exp1.licdn.com/dms/image/C5603AQEob3X1smFxKQ/profile-displayphoto-shrink_200_200/0/1643113692785?e=1651708800&v=beta&t=bbiUdUNEjzkGaW3ek2qmkt0ugNePPVtrJQ3jLnO4ZIs',
     text: 'gm',
     isProfileImageNft: false,
-    timestamp: '2020-06-01T12:00:00.000Z',
+    timestamp: '2022-06-01T12:00:00.000Z',
   },
   {
     displayName: 'Agnish',
@@ -60,7 +60,9 @@ const Feed = () => {
         <Post
           key={index}
           displayName={tweet.displayName}
-          userName={tweet.userName}
+          userName={`${tweet.userName.slice(0, 4)}...${tweet.userName.slice(
+            -4
+          )}`}
           avatar={tweet.avatar}
           text={tweet.text}
           isProfileImageNft={tweet.isProfileImageNft}
