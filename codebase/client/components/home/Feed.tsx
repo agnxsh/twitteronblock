@@ -2,6 +2,8 @@ import React from 'react'
 import { BsStars } from 'react-icons/bs'
 import TweetBox from './TweetBox'
 import Post from '../Post'
+import { useContext } from 'react'
+import { TwitterContext } from '../../context/TwitterContext'
 const style = {
   wrapper: 'flex-[2] border-r border-l border-[#38444d]',
   header:
@@ -49,6 +51,7 @@ const tweets = [
 ]
 
 const Feed = () => {
+  const { tweets } = useContext(TwitterContext)
   return (
     <div className={`${style.wrapper}`}>
       <div className={style.header}>
@@ -59,11 +62,19 @@ const Feed = () => {
       {tweets.map((tweet, index) => (
         <Post
           key={index}
-          displayName={tweet.displayName}
-          userName={`${tweet.userName.slice(0, 4)}...${tweet.userName.slice(
-            -4
-          )}`}
-          avatar={tweet.avatar}
+          displayName={
+            tweet.author.name === 'Unnamed'
+              ? `${tweet.author.walletAddress.slice(
+                  0,
+                  4
+                )}...${tweet.author.walletAddress.slice(41)}`
+              : tweet.author.name
+          }
+          userName={`${tweet.author.walletAddress.slice(
+            0,
+            4
+          )}...${tweet.author.walletAddress.slice(-4)}`}
+          avatar={tweet.author.profileImage}
           text={tweet.text}
           isProfileImageNft={tweet.isProfileImageNft}
           timestamp={tweet.timestamp}

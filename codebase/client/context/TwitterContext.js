@@ -12,7 +12,12 @@ export const TwitterProvider = ({ children }) => {
   const router = useRouter()
   useEffect(() => {
     checkIfWalletIsConnected()
-  })
+  }, [])
+
+  useEffect(() => {
+    if (!currentAccount || appStatus !== 'connected') return
+    getCurrentUserDetails
+  }, [currentAccount, appStatus])
 
   const checkIfWalletIsConnected = async () => {
     if (!window.ethereum) return setAppStatus('noMetaMask')

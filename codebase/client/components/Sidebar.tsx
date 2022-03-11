@@ -1,5 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
+import { useContext } from 'react'
+import router, { useRouter } from 'next/router'
+
 import { useState } from 'react'
 import { FiMoreHorizontal } from 'react-icons/fi'
 import { VscTwitter } from 'react-icons/vsc'
@@ -16,7 +19,7 @@ import {
   BsPerson,
   BsPersonFill,
 } from 'react-icons/bs'
-
+import { TwitterContext } from '../context/TwitterContext'
 const style = {
   wrapper: 'flex-[0.7] px-8 flex flex-col',
   twitterIconContainer: 'text-3xl m-4',
@@ -36,6 +39,7 @@ const style = {
 
 const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
   const [selected, setSelected] = useState(initialSelectedIcon)
+  const { currentAccount, currentUser, tweets } = useContext(TwitterContext)
 
   return (
     <div className={style.wrapper}>
@@ -101,16 +105,33 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           isActive={undefined}
           redirect={undefined}
         />
-        <div className={style.tweetButton}>Mint</div>
+        <div
+          onClick={() => {
+            router.push(`${router.pathname}/?mint=${currentAccount}`)
+          }}
+          className={style.tweetButton}
+        >
+          Mint
+        </div>
       </div>
       <div className={style.profileButton}>
-        <div className={style.profileLeft}></div>
+        <div className={style.profileLeft}>
+          <img
+            src={currentUser.profileImage}
+            alt="profile"
+            className={
+              currentUser.isProfileImageNft
+                ? '${style.profileImage} smallHex'
+                : style.profileImage
+            }
+          ></img>
+        </div>
         <div className={style.profileRight}>
           <div className={style.details}>
-            <div className={style.name}>agnxsh</div>
+            <div className={style.name}>{currentUser.name}</div>
 
             <div className={style.handle}>
-              @0x9D02406491E920ff3E2b49BB4470352a751D755c
+              {currentUser.slice(0, 6)}...{currentUser.slice(39)}
             </div>
           </div>
           <div className={style.moreContainer}>
