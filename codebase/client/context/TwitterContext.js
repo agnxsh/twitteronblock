@@ -8,7 +8,7 @@ export const TwitterProvider = ({ children }) => {
   const [currentAccount, setCurrentAccount] = useState('')
 
   const [tweets, setTweets] = useState([])
-
+  const [currentUser, setCurrentUser] = useState({})
   const router = useRouter()
   useEffect(() => {
     checkIfWalletIsConnected()
@@ -91,14 +91,50 @@ export const TwitterProvider = ({ children }) => {
     sanityResponse.forEach(async (items) => {
       const newItem = {
         tweet: items.tweet,
-        timestamp,
+        timestamp: items.timestamp,
+        author: {
+          name: items.author.name,
+          walletAddress: items.author.name,
+          isProfileImageNft: items.author.isProfileImageNft,
+          profileImage: items.author.profileImage,
+        },
       }
     })
+    setTweets((prevState) => [...prevState, newItem])
   }
+  const getCurrentUserDetails = async (userAccount = currentAccount) => {
+    if (appStatus !== 'connected') return
 
+    const query = `
+    *[_type == "users" && _id == "${userAccount}"]{
+      "tweets": tweets[]->{timestamp, tweet}|order(timestamp desc),
+      name,
+      profileImage,
+      isProfileImageNft,
+      coverImage,
+      walletAddress
+    }
+    `
+    const sanityResponse = await client.fetch(query)
+    setCurrentUser({
+      tweets: sanityResponse[0].tweets,
+      name: sanityResponse[0].name,
+      profileImage: sanityResponse[0].profileImage,
+      isProfileImageNft: sanityResponse[0].isProfileImageNft,
+      coverImage: sanityResponse[0].coverImage,
+      walletAddress: sanityResponse[0].walletAddress,
+    })
+  }
   return (
     <TwitterContext.Provider
-      value={{ appStatus, currentAccount, connectWallet }}
+      value={{
+        appStatus,
+        currentAccount,
+        connectWallet,
+        fetchTweets,
+        tweets,
+        currentUser,
+      }}
     >
       {children}
     </TwitterContext.Provider>
