@@ -1,15 +1,15 @@
-import React from 'react'
+import { useContext, useEffect, useState } from 'react'
+import { TwitterContext } from '../../context/TwitterContext'
 import { BsArrowLeftShort } from 'react-icons/bs'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
-import { TwitterContext } from '../../context/TwitterContext'
+
 const style = {
   wrapper: `border-[#38444d] border-b`,
   header: `py-1 px-3 mt-2 flex items-center`,
   primary: `bg-transparent outline-none font-bold`,
   secondary: `text-[#8899a6] text-xs`,
   backButton: `text-3xl cursor-pointer mr-2 rounded-full hover:bg-[#313b44] p-1`,
-  coverPhotoContainer: `flex items-center justify-center h-[15vh]`,
+  coverPhotoContainer: `flex items-center justify-center h-[15vh] overflow-hidden`,
   coverPhoto: `object-cover h-full w-full`,
   profileImageContainer: `w-full h-[6rem] rounded-full mt-[-3rem] mb-2 flex justify-start items-center px-3 flex justify-between`,
   profileImage: `object-cover rounded-full h-full`,
@@ -20,10 +20,45 @@ const style = {
   activeNav: `text-white`,
 }
 
+interface Tweets {
+  tweet: string
+  timestamp: string
+}
+
+interface UserData {
+  name: string
+  profileImage: string
+  coverImage: string
+  walletAddress: string
+  tweets: Array<Tweets>
+  isProfileImageNft: Boolean | undefined
+}
+
 const ProfileHeader = () => {
+  const { currentAccount, currentUser } = useContext(TwitterContext)
   const router = useRouter()
-  const isProfileImageNft = false
-  const currentAccount = '0x9D02406491E920ff3E2b49BB4470352a751D755c'
+  const [userData, setUserData] = useState<UserData>({
+    name: '',
+    profileImage: '',
+    coverImage: '',
+    walletAddress: '',
+    tweets: [],
+    isProfileImageNft: undefined,
+  })
+
+  useEffect(() => {
+    if (!currentUser) return
+
+    setUserData({
+      name: currentUser.name,
+      profileImage: currentUser.profileImage,
+      walletAddress: currentUser.walletAddress,
+      coverImage: currentUser.coverImage,
+      tweets: currentUser.tweets,
+      isProfileImageNft: currentUser.isProfileImageNft,
+    })
+  }, [currentUser])
+
   return (
     <div className={style.wrapper}>
       <div className={style.header}>
@@ -31,36 +66,41 @@ const ProfileHeader = () => {
           <BsArrowLeftShort />
         </div>
         <div className={style.details}>
-          <div className={style.primary}>Agnish Ghosh</div>
-          <div className={style.secondary}>4 tweets</div>
+          <div className={style.primary}>{userData.name}</div>
+          <div className={style.secondary}>
+            {userData.tweets?.length} Tweets
+          </div>
         </div>
       </div>
-      <div>
+      <div className={style.coverPhotoContainer}>
         <img
-          src="https://www.teahub.io/photos/full/210-2107522_black-space-wallpapers001-star.jpg"
+          src={userData.coverImage}
           alt="cover"
           className={style.coverPhoto}
         />
       </div>
       <div className={style.profileImageContainer}>
         <div
-          className={isProfileImageNft ? 'hex' : style.profileImageContainer}
+          className={
+            currentUser.isProfileImageNft ? 'hex' : style.profileImageContainer
+          }
         >
           <img
-            src="https://media-exp1.licdn.com/dms/image/C5603AQEob3X1smFxKQ/profile-displayphoto-shrink_200_200/0/1643113692785?e=1651708800&v=beta&t=bbiUdUNEjzkGaW3ek2qmkt0ugNePPVtrJQ3jLnO4ZIs"
-            alt="Agnish"
+            src={userData.profileImage}
+            alt={userData.walletAddress}
             className={
-              isProfileImageNft ? style.profileImageNft : style.profileImage
+              currentUser.isProfileImageNft
+                ? style.profileImageNft
+                : style.profileImage
             }
           />
         </div>
       </div>
       <div className={style.details}>
         <div>
-          <div className={style.primary}>Agnish Ghosh</div>
+          <div className={style.primary}>{currentUser.name}</div>
         </div>
         <div className={style.secondary}>
-          {' '}
           {currentAccount && (
             <>
               @{currentAccount.slice(0, 8)}...{currentAccount.slice(37)}

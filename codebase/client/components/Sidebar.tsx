@@ -131,7 +131,7 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
             <div className={style.name}>{currentUser.name}</div>
 
             <div className={style.handle}>
-              {currentUser.slice(0, 6)}...{currentUser.slice(39)}
+              @{currentAccount.slice(0, 6)}...{currentAccount.slice(39)}
             </div>
           </div>
           <div className={style.moreContainer}>
