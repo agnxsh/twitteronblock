@@ -20,6 +20,9 @@ import {
   BsPersonFill,
 } from 'react-icons/bs'
 import { TwitterContext } from '../context/TwitterContext'
+import Modal from 'react-modal'
+import ProfileImageMinter from './mintingModal/ProfileImageMinter'
+import { customStyles } from '../lib/constants'
 const style = {
   wrapper: 'flex-[0.7] px-8 flex flex-col',
   twitterIconContainer: 'text-3xl m-4',
@@ -40,7 +43,7 @@ const style = {
 const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
   const [selected, setSelected] = useState(initialSelectedIcon)
   const { currentAccount, currentUser, tweets } = useContext(TwitterContext)
-
+  const router = useRouter()
   return (
     <div className={style.wrapper}>
       <div className={style.twitterIconContainer}>
@@ -139,6 +142,12 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           </div>
         </div>
       </div>
+      <Modal
+        isOpen={Boolean(router.query.mint)}
+        onRequestClose={() => router.back}
+      >
+        <ProfileImageMinter />
+      </Modal>
     </div>
   )
 }
