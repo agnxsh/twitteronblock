@@ -21,7 +21,7 @@ import {
 } from 'react-icons/bs'
 import { TwitterContext } from '../context/TwitterContext'
 import Modal from 'react-modal'
-import ProfileImageMinter from './mintingModal/ProfileImageMinter'
+import ProfileImageMinter from './profile/mintingModal/ProfileImageMinter'
 import { customStyles } from '../lib/constants'
 const style = {
   wrapper: 'flex-[0.7] px-8 flex flex-col',
