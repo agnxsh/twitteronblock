@@ -1,37 +1,31 @@
-import React from 'react'
-import Link from 'next/link'
-import { useContext } from 'react'
-import router, { useRouter } from 'next/router'
-
-import { useState } from 'react'
-import { FiMoreHorizontal } from 'react-icons/fi'
-import { VscTwitter } from 'react-icons/vsc'
+import { useState, useContext } from 'react'
+import { useRouter } from 'next/router'
+import { TwitterContext } from '../context/TwitterContext'
 import SidebarOption from './SidebarOption'
 import { RiHome7Line, RiHome7Fill, RiFileList2Fill } from 'react-icons/ri'
 import { BiHash } from 'react-icons/bi'
-import { FiBell } from 'react-icons/fi'
+import { FiBell, FiMoreHorizontal } from 'react-icons/fi'
 import { HiOutlineMail, HiMail } from 'react-icons/hi'
 import { FaRegListAlt, FaHashtag, FaBell } from 'react-icons/fa'
 import { CgMoreO } from 'react-icons/cg'
+import { VscTwitter } from 'react-icons/vsc'
+import Modal from 'react-modal'
+import { customStyles } from '../lib/constants'
+import ProfileImageMinter from './profile/mintingModal/ProfileImageMinter'
 import {
   BsBookmark,
   BsBookmarkFill,
   BsPerson,
   BsPersonFill,
 } from 'react-icons/bs'
-import { TwitterContext } from '../context/TwitterContext'
-import Modal from 'react-modal'
-import ProfileImageMinter from './profile/mintingModal/ProfileImageMinter'
-import { customStyles } from '../lib/constants'
+
 const style = {
-  wrapper: 'flex-[0.7] px-8 flex flex-col',
-  twitterIconContainer: 'text-3xl m-4',
-  tweetButton:
-    'bg-[#1d9bf0] hover:bg-[#1b8cd8] flex items-center justify-center font-bold rounded-3xl h-[50px] mt-[20px] cursor-pointer',
-  navContainer: 'flex-1',
-  profileButton:
-    'flex items-center mb-6 cursor-pointer hover:bg-[#333c45] rounded-[100px] p-2',
-  profileLeft: 'flex item-center justify-center mr-4',
+  wrapper: `flex-[0.7] px-8 flex flex-col`,
+  twitterIconContainer: `text-3xl m-4`,
+  tweetButton: `bg-[#1d9bf0] hover:bg-[#1b8cd8] flex items-center justify-center font-bold rounded-3xl h-[50px] mt-[20px] cursor-pointer`,
+  navContainer: `flex-1`,
+  profileButton: `flex items-center mb-6 cursor-pointer hover:bg-[#333c45] rounded-[100px] p-2`,
+  profileLeft: `flex item-center justify-center mr-4`,
   profileImage: `height-12 w-12 rounded-full`,
   profileRight: `flex-1 flex`,
   details: `flex-1`,
@@ -40,10 +34,15 @@ const style = {
   moreContainer: `flex items-center mr-2`,
 }
 
-const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
-  const [selected, setSelected] = useState(initialSelectedIcon)
-  const { currentAccount, currentUser, tweets } = useContext(TwitterContext)
+interface SidebarProps {
+  initialSelectedIcon: string
+}
+
+function Sidebar({ initialSelectedIcon }: SidebarProps) {
+  const [selected, setSelected] = useState<String>(initialSelectedIcon)
+  const { currentAccount, currentUser } = useContext(TwitterContext)
   const router = useRouter()
+
   return (
     <div className={style.wrapper}>
       <div className={style.twitterIconContainer}>
@@ -57,7 +56,6 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           setSelected={setSelected}
           redirect={'/'}
         />
-
         <SidebarOption
           Icon={selected === 'Explore' ? FaHashtag : BiHash}
           text="Explore"
@@ -93,7 +91,6 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           setSelected={setSelected}
           redirect={undefined}
         />
-
         <SidebarOption
           Icon={selected === 'Profile' ? BsPersonFill : BsPerson}
           text="Profile"
@@ -104,14 +101,14 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
         <SidebarOption
           Icon={CgMoreO}
           text="More"
-          setSelected={setSelected}
           isActive={undefined}
+          setSelected={undefined}
           redirect={undefined}
         />
         <div
-          onClick={() => {
+          onClick={() =>
             router.push(`${router.pathname}/?mint=${currentAccount}`)
-          }}
+          }
           className={style.tweetButton}
         >
           Mint
@@ -124,15 +121,14 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
             alt="profile"
             className={
               currentUser.isProfileImageNft
-                ? '${style.profileImage} smallHex'
+                ? `${style.profileImage} smallHex`
                 : style.profileImage
             }
-          ></img>
+          />
         </div>
         <div className={style.profileRight}>
           <div className={style.details}>
             <div className={style.name}>{currentUser.name}</div>
-
             <div className={style.handle}>
               @{currentAccount.slice(0, 6)}...{currentAccount.slice(39)}
             </div>
@@ -142,9 +138,11 @@ const Sidebar = ({ initialSelectedIcon = 'Home' }) => {
           </div>
         </div>
       </div>
+
       <Modal
         isOpen={Boolean(router.query.mint)}
-        onRequestClose={() => router.back}
+        onRequestClose={() => router.back()}
+        style={customStyles}
       >
         <ProfileImageMinter />
       </Modal>

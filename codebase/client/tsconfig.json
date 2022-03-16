@@ -22,7 +22,8 @@
     "**/*.tsx",
     "pages/index.tsx",
     "pages/index.tsx",
-    "pages/_app.tsx"
+    "pages/_app.tsx",
+    "lib/static.js"
   ],
   "exclude": ["node_modules"]
 }

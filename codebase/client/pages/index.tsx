@@ -1,9 +1,8 @@
 import { useContext } from 'react'
 import { TwitterContext } from '../context/TwitterContext'
-import Sidebar from '../components/Sidebar'
 import Feed from '../components/home/Feed'
+import Sidebar from '../components/Sidebar'
 import Widgets from '../components/Widgets'
-
 import metamaskLogo from '../assets/metamask.png'
 import errorImg from '../assets/error.png'
 import Image from 'next/image'
@@ -20,21 +19,24 @@ const Home = () => {
   const { appStatus, connectWallet } = useContext(TwitterContext)
 
   const app = (status = appStatus) => {
-    //the app is going to different things on the viewport based on different scenarios
-    //of login attempts like 1) login in successful 2) not logged in 3) don't have metamask
     switch (status) {
       case 'connected':
         return userLoggedIn
+
       case 'notConnected':
         return noUserFound
+
       case 'noMetaMask':
         return noMetaMaskFound
+
       case 'error':
         return error
+
       default:
         return loading
     }
   }
+
   const userLoggedIn = (
     <div className={style.content}>
       <Sidebar initialSelectedIcon={'Home'} />
@@ -42,6 +44,7 @@ const Home = () => {
       <Widgets />
     </div>
   )
+
   const noUserFound = (
     <div className={style.loginContainer}>
       <Image src={metamaskLogo} width={200} height={200} />
@@ -54,14 +57,15 @@ const Home = () => {
       <div className={style.loginContent}>Connect to Metamask.</div>
     </div>
   )
+
   const noMetaMaskFound = (
     <div className={style.loginContainer}>
-      <Image src={metamaskLogo} height={200} width={200} />
+      <Image src={metamaskLogo} width={200} height={200} />
       <div className={style.loginContent}>
         <a
           target="_blank"
           rel="noreferrer"
-          href={'https://metamask.io/download.html'}
+          href={`https://metamask.io/download.html`}
         >
           You must install Metamask, a <br /> virtual Ethereum wallet, in your
           browser.
@@ -72,9 +76,9 @@ const Home = () => {
 
   const error = (
     <div className={style.loginContainer}>
-      <Image src={errorImg} height={200} width={200} />
+      <Image src={errorImg} width={250} height={200} />
       <div className={style.loginContent}>
-        An error occured. Please try again or use another browser.
+        An error occurred. Please try again later or from another browser.
       </div>
     </div>
   )
@@ -84,6 +88,8 @@ const Home = () => {
       <div className={style.loginContent}>Loading...</div>
     </div>
   )
+
   return <div className={style.wrapper}>{app(appStatus)}</div>
 }
+
 export default Home

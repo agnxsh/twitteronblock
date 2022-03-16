@@ -1,5 +1,6 @@
-import React from 'react'
+import { Dispatch, SetStateAction } from 'react'
 import { GiEarthAmerica } from 'react-icons/gi'
+
 const style = {
   wrapper: `h-[20rem] w-[35rem] text-white bg-[#15202b] rounded-3xl p-10 flex flex-col`,
   inputFieldsContainer: `flex-1`,
@@ -15,16 +16,27 @@ const style = {
   inactiveMintButton: `text-black px-3 py-1 rounded-full bg-[#8899a6]`,
 }
 
-const InitialState = (
+interface InitialStateProps {
+  profileImage: File
+  setProfileImage: Dispatch<SetStateAction<File | undefined>>
+  name: string
+  setName: Dispatch<SetStateAction<string>>
+  description: string
+  setDescription: Dispatch<SetStateAction<string>>
+  mint: Function
+}
+
+const InitialState = ({
   profileImage,
   setProfileImage,
   name,
   setName,
   description,
   setDescription,
-  mint
-) => {
+  mint,
+}: InitialStateProps) => {
   console.log(profileImage)
+
   return (
     <div className={style.wrapper}>
       <div className={style.inputFieldsContainer}>
@@ -32,15 +44,17 @@ const InitialState = (
           <label
             htmlFor="image-upload"
             className={profileImage ? style.fileSelected : style.customInput}
-          />
-          <input
-            type="file"
-            id="image-upload"
-            accept=".jpg,.jpeg,.png"
-            className={style.fileInput}
-            placeholder="Image URL"
-            onChange={(e) => setProfileImage(e.target.files![0])}
-          />
+          >
+            <input
+              type="file"
+              id="image-upload"
+              accept=".jpg, .jpeg, .png"
+              className={style.fileInput}
+              placeholder="Image URL"
+              onChange={(e) => setProfileImage(e.target.files![0])}
+            />
+            Select File
+          </label>
         </div>
         <div className={style.inputContainer}>
           <input
